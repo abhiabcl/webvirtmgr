@@ -3,6 +3,9 @@ from django.conf import settings
 
 urlpatterns = patterns('',
     url(r'^$', 'servers.views.index', name='index'),
+    url(r'^change-password/$', 'django.contrib.auth.views.password_change', {'template_name': 'password_change_form.html'}, name="password-change"),
+    url(r'^change-password-done/$', 'django.contrib.auth.views.password_change_done', {'template_name': 'password_change_done.html'
+    }, name="password-change-done"),
     url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'}, name='login'),
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'template_name': 'logout.html'}, name='logout'),
     url(r'^servers/$', 'servers.views.servers_list', name='servers_list'),
