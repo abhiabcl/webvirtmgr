@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% block title %}{% trans "Group Management" %}{% endblock %}
+{% block style %}
+    <link href="{% static "css/table-sort.css" %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12">
+        {% if form.name.errors %}
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                {% for error in form.name.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% if form.hostname.errors %}
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                {% for error in form.hostname.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% if form.login.errors %}
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                {% for error in form.login.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% if form.password.errors %}
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                {% for error in form.password.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+            <div class="page-header">
+                <a data-toggle="modal" href="#addHost"
+                   class="btn btn-sm btn-success pull-right">{% trans "Add Groups" %}</a>
+
+                <h1>{% trans "Groups" %}</h1>
+            </div>
+		<div class="page-header">
+		<form action="/servers/" class="form-signin" method="post" role="form">{% csrf_token %}
+		<label> Select Group : </label>
+		{% if host_group %}
+		<select id="site_group">
+		<option value= 'all'> All </option>
+		{% for host in host_group %}
+		<option value = "{{ host }}" >{{ host }}</option>
+		{% endfor %}
+		{% endif %}
+		<input name="next" id="next" type="hidden">
+		<input type='submit' value='Submit' onclick="getgroup()"/>
+		</form>
+
+		<label id="lbltipAddedComment"></label>
+		<script type="text/javascript">
+			function clickme(){  document.getElementById('lbltipAddedComment').innerHTML = 'your tip has been submitted!'; }
+			function getgroup(){ var el = document.getElementById("site_group").value;  document.getElementById('next').value = el; return el; }
+		</script>
+	     </div>
+
+    <div class="modal fade" id="addHost" tabindex="-1" role="dialog" aria-labelledby="addHostLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">{% trans "Add Groups" %}</h4>
+                </div>
+                <div class="tabbable">
+                    <ul class="nav nav-tabs">
+                        <li><a href="#2" data-toggle="tab">{% trans "Groups Details" %}</a></li>
+                    </ul>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="1">
+                        <form class="form-horizontal" method="post" role="form">{% csrf_token %}
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">{% trans "Label" %}</label>
+
+                                <div class="col-sm-6">
+                                    <input type="text" name="name" class="form-control" placeholder="Label Name"
+                                           maxlength="20" required pattern="[a-z0-9\.\-_]+">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">{% trans "FQDN / IP" %}</label>
+
+                                <div class="col-sm-6">
+                                    <input type="text" name="hostname" class="form-control"
+                                           placeholder="{% trans "FQDN or IP Address" %}" required
+                                           pattern="[a-z0-9\.\-_]+">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">{% trans "Username" %}</label>
+
+                                <div class="col-sm-6">
+                                    <input type="text" name="login" class="form-control"
+                                           placeholder="{% trans "Username" %}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">{% trans "Password" %}</label>
+
+                                <div class="col-sm-6">
+                                    <input type="password" name="password" class="form-control"
+                                           placeholder="{% trans "Password" %}">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default"
+                                        data-dismiss="modal">{% trans "Close" %}</button>
+                                <button type="submit" class="btn btn-primary"
+                                        name="host_tcp_add">{% trans "Add" %}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+{% endblock %}

@@ -46,6 +46,10 @@
 
                 <h1>{% trans "Connections" %}</h1>
             </div>
+
+            {% if current_group %}
+            <label class="standard_label_style"> Name of Group : {{ current_group }} </label>
+            {% endif %}
             <div class="row" role="main">
             {% if hosts_info %}
                 {% for host in hosts_info %}

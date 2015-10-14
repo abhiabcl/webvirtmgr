@@ -5,3 +5,6 @@ WebVirtMgr is a libvirt-based Web interface for managing virtual machines. It al
 
 #14-Oct-2015. Password change
 Added password chnage option using GUI.
+
+#14-Oct-2015. Domain level grouping
+Added grouping of node connection at GUI
